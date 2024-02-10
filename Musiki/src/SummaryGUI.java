@@ -1,0 +1,71 @@
+import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import clipService.GetSummaryList;
+import clipService.MostLikedGenre;
+import models.Dinleyici;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JLabel;
+
+public class SummaryGUI extends JFrame {
+	static Dinleyici dinleyici = new Dinleyici();
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTable table;
+	
+	
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SummaryGUI frame = new SummaryGUI(dinleyici);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public SummaryGUI(Dinleyici dinleyici) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 443, 415);
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.BLACK);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		table = new JTable(GetSummaryList.getList(dinleyici));
+		table.setFont(new Font("Verdana", Font.BOLD, 15));
+		table.setForeground(new Color(0, 128, 128));
+		table.setBackground(Color.DARK_GRAY);
+		table.setBounds(10, 11, 407, 307);
+		contentPane.add(table);
+		
+		JLabel lblMostLikedGenre = new JLabel("En cok dinlenilen tur: " + MostLikedGenre.FinalGenre(dinleyici));
+		lblMostLikedGenre.setFont(new Font("Verdana", Font.BOLD, 18));
+		lblMostLikedGenre.setForeground(new Color(0, 100, 0));
+		lblMostLikedGenre.setBounds(10, 329, 407, 34);
+		contentPane.add(lblMostLikedGenre);
+		
+	}
+}
