@@ -1,0 +1,160 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+
+import Model.Artist;
+import Model.Dinleyici;
+import Model.User;
+import clipService.*;
+
+import java.awt.Color;
+import javax.swing.JTextField;
+import java.awt.Font;
+import javax.swing.JList;
+import javax.sound.sampled.Clip;
+import javax.swing.AbstractListModel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
+public class DinleyiciGUI extends JFrame {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	static Dinleyici dinleyici = new Dinleyici();
+	private JTextField txtHosgeldin;
+	String temp = "";
+	Clip song = null;
+	String songGenre = "";
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					DinleyiciGUI frame = new DinleyiciGUI(dinleyici);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public DinleyiciGUI(Dinleyici dinleyici) {
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 635, 552);
+		contentPane = new JPanel();
+		contentPane.setBackground(Color.BLACK);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		txtHosgeldin = new JTextField();
+		txtHosgeldin.setEditable(false);
+		txtHosgeldin.setBounds(20, 11, 426, 32);
+		txtHosgeldin.setFont(new Font("Tahoma", Font.BOLD, 18));
+		txtHosgeldin.setText("Hosgeldin " + dinleyici.getUsername());
+		txtHosgeldin.setForeground(new Color(0, 100, 0));
+		txtHosgeldin.setBackground(Color.BLACK);
+		contentPane.add(txtHosgeldin);
+		txtHosgeldin.setColumns(10);
+		
+		JList list = new JList(GetMusicList.getList());
+		list.setFont(new Font("Yu Gothic Light", Font.BOLD, 14));
+		list.setForeground(new Color(0, 250, 154));
+		list.setBackground(Color.DARK_GRAY);
+		list.setBounds(20, 54, 589, 278);
+		contentPane.add(list);
+		
+		JButton btnOynat = new JButton("Oynat");
+		btnOynat.setBackground(UIManager.getColor("Button.darkShadow"));
+		btnOynat.setFont(new Font("Verdana", Font.BOLD, 16));
+		btnOynat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(list.getSelectedIndex() != -1) {
+					System.out.println(list.getSelectedValue());
+					if(temp.equals(list.getSelectedValue().toString())) {
+						if(!songGenre.equals("")){
+							LogMusics.kaydet(dinleyici, song, songGenre);
+						}
+						song.setMicrosecondPosition(0);
+						song.start();	
+					}
+					else {
+						if(song!= null) {
+							if(!songGenre.equals("")){
+								LogMusics.kaydet(dinleyici, song, songGenre);
+							}
+							song.close();
+						}
+						temp = list.getSelectedValue().toString();
+						song = MakeClipReady.gonder(list.getSelectedValue().toString());
+						PlaySong.Cal(song);
+						songGenre = list.getSelectedValue().toString().split("-")[2];
+						System.out.println(songGenre);
+						
+					}
+				}
+			}
+		});
+		btnOynat.setBounds(20, 343, 131, 80);
+		contentPane.add(btnOynat);
+		
+		JButton btnDurdur = new JButton("Durdur\r\n");
+		btnDurdur.setForeground(new Color(0, 0, 0));
+		btnDurdur.setBackground(UIManager.getColor("Button.darkShadow"));
+		btnDurdur.setFont(new Font("Verdana", Font.BOLD, 16));
+		btnDurdur.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(song != null) {
+					if(!songGenre.equals("")){
+						LogMusics.kaydet(dinleyici, song, songGenre);
+					}
+					song.close();
+				}
+				
+			}
+		});
+		btnDurdur.setBounds(181, 343, 131, 80);
+		contentPane.add(btnDurdur);
+		
+		JButton btnOzetGetir = new JButton("Yilbasi Ozel Ozet 2023");
+		btnOzetGetir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SummaryGUI sGUI = new SummaryGUI(dinleyici);
+				sGUI.setVisible(true);
+				
+			}
+		});
+		btnOzetGetir.setForeground(new Color(0, 0, 0));
+		btnOzetGetir.setBackground(new Color(0, 100, 0));
+		btnOzetGetir.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		btnOzetGetir.setBounds(337, 343, 272, 78);
+		contentPane.add(btnOzetGetir);
+		
+		JLabel lblDesign = new JLabel("Designed by İlkay Özkan");
+		lblDesign.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblDesign.setForeground(new Color(0, 255, 255));
+		lblDesign.setBounds(20, 470, 589, 14);
+		contentPane.add(lblDesign);
+		
+		JLabel lblCopyright = new JLabel("Copyright All Rights Reserved FowTech2023");
+		lblCopyright.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCopyright.setForeground(new Color(0, 255, 255));
+		lblCopyright.setBounds(20, 488, 589, 14);
+		contentPane.add(lblCopyright);
+	}
+}

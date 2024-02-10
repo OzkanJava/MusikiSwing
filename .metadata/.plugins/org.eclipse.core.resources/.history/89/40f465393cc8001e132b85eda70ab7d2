@@ -1,0 +1,10 @@
+package Helper;
+
+public class Logger implements LogService{
+
+	public void printAction(String s) {
+		System.out.println("Logged: " + s);
+		
+	}
+
+}
