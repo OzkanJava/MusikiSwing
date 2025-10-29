@@ -1,6 +1,0 @@
-package Helper;
-
-public interface LogService {
-	void printAction(String s);
-
-}
