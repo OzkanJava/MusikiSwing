@@ -30,15 +30,24 @@ Bu proje, kullanıcılara basit ve kullanışlı bir arayüz üzerinden `.wav` f
 
 **Ana Arayüz**
 *Uygulamanın ana penceresi ve kontrol düğmeleri.*
-![Ana Arayüz](images/SongList.jpg)
+<br>
+<img src="images/SongList.jpg" alt="Ana Arayüz" width="450"/>
 
 **Dosya Seçim Ekranı**
 *Yeni bir müzik dosyası seçerken kullanılan dosya gezgini.*
-![Dosya Seçim Ekranı](images/ArtistPage.jpg)
+<br>
+<img src="images/ArtistPage.jpg" alt="Dosya Seçim Ekranı" width="450"/>
 
 **Giriş Ekranı**
 *Giriş Ekranı*
-![Dosya Seçim Ekranı](images/LoginPage.jpg)
+<br>
+<img src="images/LoginPage.jpg" alt="Giriş Ekranı" width="450"/>
+
+**Özet Ekranı**
+*Özet Ekranı*
+<br>
+<img src="images/OzetPage.jpg" alt="Ozet Ekranı" width="250"/>
+
 
 
 ## 💻 Kullanılan Teknolojiler
@@ -53,5 +62,3 @@ Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyebi
 **1. Projeyi Klonlayın:**
 ```bash
 git clone https://github.com/OzkanJava/MusikiSwing.git
-
-
